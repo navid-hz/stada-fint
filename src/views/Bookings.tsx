@@ -1,4 +1,3 @@
-// src/views/Bookings.tsx
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, List, ListItem, ListItemText, IconButton, Button, TextField, MenuItem } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
