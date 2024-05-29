@@ -1,10 +1,11 @@
+// src/components/Button.tsx
 import styled from 'styled-components';
 
 const Button = styled.button`
-  background: palevioletred;
+  background: ${(props) => props.theme.colors.primary};
   border-radius: 3px;
   border: none;
-  color: white;
+  color: ${(props) => props.theme.colors.secondary};
   padding: 0.5em 1em;
   font-size: 1em;
   cursor: pointer;
