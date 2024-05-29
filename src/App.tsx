@@ -1,11 +1,11 @@
-// src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Navbar from './components/Navbar';
 import Home from './views/Home';
 import Bookings from './views/Bookings';
-import theme from './theme';
+
+const theme = createTheme();
 
 function App() {
   return (

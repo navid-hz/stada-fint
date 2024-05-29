@@ -1,20 +1,14 @@
-// src/views/Bookings.tsx
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-
-const BookingContainer = styled.div`
-  padding: 20px;
-`;
-
-const BookingItem = styled.div`
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px 0;
-`;
-
-const Form = styled.form`
-  margin-bottom: 20px;
-`;
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 
 const Bookings = () => {
     const [bookings, setBookings] = useState<any[]>([]);
@@ -37,57 +31,88 @@ const Bookings = () => {
             .then((newBooking) => setBookings([...bookings, newBooking]));
     };
 
-    const handleDelete = (id: string) => {
-        fetch(`http://localhost:5000/bookings/${id}`, { method: 'DELETE' })
-            .then(() => setBookings(bookings.filter((booking) => booking.id !== id)));
+    const handleDelete = () => {
+        fetch(`http://localhost:5000/bookings/${bookings[0]?.id}`, { method: 'DELETE' })
+            .then(() => setBookings([]));
     };
 
     return (
-        <BookingContainer>
-            <h1>Your Bookings</h1>
-            <Form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Customer Name"
-                    value={form.customerName}
-                    onChange={(e) => setForm({ ...form, customerName: e.target.value })}
-                    required
-                />
-                <input
-                    type="date"
-                    value={form.date}
-                    onChange={(e) => setForm({ ...form, date: e.target.value })}
-                    required
-                />
-                <input
-                    type="time"
-                    value={form.time}
-                    onChange={(e) => setForm({ ...form, time: e.target.value })}
-                    required
-                />
-                <select value={form.level} onChange={(e) => setForm({ ...form, level: e.target.value })}>
-                    <option value="Basic">Basic</option>
-                    <option value="Top">Top</option>
-                    <option value="Diamond">Diamond</option>
-                </select>
-                <input
-                    type="text"
-                    placeholder="Cleaner Name"
-                    value={form.cleanerName}
-                    onChange={(e) => setForm({ ...form, cleanerName: e.target.value })}
-                    required
-                />
-                <button type="submit">Add Booking</button>
-            </Form>
-            {bookings.map((booking) => (
-                <BookingItem key={booking.id}>
-                    <h2>{booking.customerName}</h2>
-                    <p>{booking.date} - {booking.time}</p>
-                    <p>{booking.level}</p>
-                    <button onClick={() => handleDelete(booking.id)}>Delete</button>
-                </BookingItem>
-            ))}
-        </BookingContainer>
+        <Container>
+            <Box my={4}>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    Your Bookings
+                </Typography>
+                <Paper style={{ padding: 16 }}>
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            label="Customer Name"
+                            value={form.customerName}
+                            onChange={(e) => setForm({ ...form, customerName: e.target.value })}
+                            fullWidth
+                            required
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Date"
+                            type="date"
+                            value={form.date}
+                            onChange={(e) => setForm({ ...form, date: e.target.value })}
+                            fullWidth
+                            required
+                            margin="normal"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                        <TextField
+                            label="Time"
+                            type="time"
+                            value={form.time}
+                            onChange={(e) => setForm({ ...form, time: e.target.value })}
+                            fullWidth
+                            required
+                            margin="normal"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                        <FormControl fullWidth margin="normal">
+                            <InputLabel>Level</InputLabel>
+                            <Select
+                                value={form.level}
+                                onChange={(e) => setForm({ ...form, level: e.target.value })}
+                                fullWidth
+                            >
+                                <MenuItem value="Basic">Basic</MenuItem>
+                                <MenuItem value="Top">Top</MenuItem>
+                                <MenuItem value="Diamond">Diamond</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <TextField
+                            label="Cleaner Name"
+                            value={form.cleanerName}
+                            onChange={(e) => setForm({ ...form, cleanerName: e.target.value })}
+                            fullWidth
+                            required
+                            margin="normal"
+                        />
+                        <Box mt={2}>
+                            <Button type="submit" variant="contained" color="primary">Add Booking</Button>
+                        </Box>
+                    </form>
+                </Paper>
+                <Box mt={4}>
+                    {bookings.map((booking) => (
+                        <Paper key={booking.id} style={{ padding: 16, marginBottom: 16 }}>
+                            <Typography variant="h6">{booking.customerName}</Typography>
+                            <Typography>{booking.date} - {booking.time}</Typography>
+                            <Typography>{booking.level}</Typography>
+                            <Button variant="contained" color="secondary" onClick={handleDelete}>Delete All Bookings</Button>
+                        </Paper>
+                    ))}
+                </Box>
+            </Box>
+        </Container>
     );
 };
 
